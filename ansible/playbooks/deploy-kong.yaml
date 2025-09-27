@@ -1,0 +1,10 @@
+- name: Deploy Kong API Gateway to Kubernetes
+  hosts: local
+  gather_facts: no
+  
+  tasks:
+    - name: deploy kong
+      include_role:
+        name: kong
+      vars:
+        kong_namespace: test

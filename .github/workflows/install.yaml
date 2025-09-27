@@ -31,7 +31,10 @@ jobs:
           sudo apt install -y ansible
 
       - name: Verify Ansible installation
-        run: |
-          ansible --version
-          ls -la 
-          #ansible-playbook site.yml -i localhost, -c local
+        run: ansible --version
+        
+      - name: Install requirements
+        run: ansible-galaxy install -r requirements.yaml
+
+      - name: Install kong
+        run: ansible-playbook playbooks/deploy-kong.yaml
