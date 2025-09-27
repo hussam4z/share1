@@ -11,20 +11,27 @@ jobs:
     # runs-on: [self-hosted, onprem]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-    
-    - name: Install Ansible
-      run: |
-        sudo apt update
-        sudo apt install -y software-properties-common
-        sudo apt-add-repository --yes --update ppa:ansible/ansible
-        sudo apt install -y ansible
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Verify Ansible installation
-      run: ansible --version
+      - name: Check if Ansible is installed
+        id: check_ansible
+        run: |
+          if ! command -v ansible &> /dev/null
+          then
+              echo "ansible_missing=true" >> "$GITHUB_OUTPUT"
+          else
+              echo "ansible_missing=false" >> "$GITHUB_OUTPUT"
+          fi
 
-    - name: Run Ansible Playbook on localhost
-      run: |
+      - name: Install Ansible if missing
+        if: steps.check_ansible.outputs.ansible_missing == 'true'
+        run: |
+          sudo apt update
+          sudo apt install -y ansible
+
+      - name: Verify Ansible installation
+        run: ansible --version
+        
         ls -la 
         #ansible-playbook site.yml -i localhost, -c local
