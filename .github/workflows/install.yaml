@@ -10,6 +10,11 @@ jobs:
     # Optional: Specify labels if you've set any (e.g., 'onprem')
     # runs-on: [self-hosted, onprem]
 
+    defaults:
+      run:
+        working-directory: ./ansible
+
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
