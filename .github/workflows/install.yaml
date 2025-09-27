@@ -11,7 +11,9 @@ jobs:
     # runs-on: [self-hosted, onprem]
 
     steps:
-      - name: Run a script
-        run: |
-          echo "Running on the on-prem runner!"
-          uname -a
+    - name: Install Ansible
+      run: |
+        sudo apt update
+        sudo apt install -y software-properties-common
+        sudo apt-add-repository --yes --update ppa:ansible/ansible
+        sudo apt install -y ansible
