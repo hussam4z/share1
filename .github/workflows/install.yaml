@@ -1,0 +1,20 @@
+name: Run on On-Prem Runner
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: self-hosted  # Required for all self-hosted runners
+    # Optional: Specify labels if you've set any (e.g., 'onprem')
+    # runs-on: [self-hosted, onprem]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run a script
+        run: |
+          echo "Running on the on-prem runner!"
+          uname -a
